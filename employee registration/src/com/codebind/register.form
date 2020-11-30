@@ -82,7 +82,7 @@
               <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <font name="Garuda" size="20"/>
+              <font size="14"/>
               <text value="Full Name"/>
             </properties>
           </component>
@@ -99,6 +99,7 @@
               <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <font name="Gadugi" size="14"/>
               <text value="Id Card Number"/>
             </properties>
           </component>
@@ -115,6 +116,7 @@
               <grid row="4" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <font name="Gadugi" size="14"/>
               <text value="Address"/>
             </properties>
           </component>
@@ -131,6 +133,7 @@
               <grid row="6" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <font name="Gadugi" size="14"/>
               <text value="Telephone Number"/>
             </properties>
           </component>
@@ -147,6 +150,7 @@
               <grid row="8" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <font name="Gadugi" size="14"/>
               <text value="Basic Salary"/>
             </properties>
           </component>
@@ -163,6 +167,7 @@
               <grid row="10" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <font name="Gadugi" size="14"/>
               <text value="Date"/>
             </properties>
           </component>
@@ -179,6 +184,7 @@
               <grid row="13" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <font name="Gadugi" size="14"/>
               <text value="Clear"/>
             </properties>
           </component>
@@ -187,6 +193,7 @@
               <grid row="13" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <font name="Gadugi" size="14"/>
               <text value="Save"/>
             </properties>
           </component>
@@ -195,6 +202,7 @@
               <grid row="13" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <font name="Gadugi" size="14"/>
               <text value="Edit"/>
             </properties>
           </component>
@@ -203,7 +211,17 @@
               <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <font name="Gadugi" size="14"/>
               <text value="EPF/ETF"/>
+            </properties>
+          </component>
+          <component id="bcdf5" class="javax.swing.JButton" binding="deleteButton" default-binding="true">
+            <constraints>
+              <grid row="12" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font name="Gadugi" size="14"/>
+              <text value="Delete"/>
             </properties>
           </component>
         </children>
@@ -216,13 +234,14 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="8b6" class="javax.swing.JList" binding="list1" default-binding="true">
+          <component id="8b6" class="javax.swing.JList" binding="peopleList">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="2" use-parent-layout="false">
                 <preferred-size width="50" height="50"/>
               </grid>
             </constraints>
             <properties>
+              <selectionForeground color="-5458470"/>
               <toolTipText value=""/>
             </properties>
           </component>
