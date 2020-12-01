@@ -56,13 +56,15 @@ public class register extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+
                     user User1 = new user(
                             nameText.getText(),
                             idText.getText(),
                             addressText.getText(),
                             Long.parseLong(telephoneText.getText()),
                             Double.parseDouble(salaryInt.getText()),
-                            new SimpleDateFormat("yyyy-mm-dd").parse(dateText.getText())
+                            new SimpleDateFormat("yyyy-mm-dd").parse(dateText.getText()),
+                            EPFETFCheckBox.isSelected()
                     );
                     arrayRefresh();
 
@@ -75,7 +77,8 @@ public class register extends JFrame {
                         addressText.getText(),
                         telephoneText.getText(),
                         salaryInt.getText(),
-                        dateText.getText()
+                        dateText.getText(),
+                        Boolean.toString(EPFETFCheckBox.isSelected())
                 );
 
 
@@ -91,14 +94,17 @@ public class register extends JFrame {
                             addressText.getText(),
                             Long.parseLong(telephoneText.getText()),
                             Double.parseDouble(salaryInt.getText()),
-                            new SimpleDateFormat("yyyy-mm-dd").parse(dateText.getText())
+                            new SimpleDateFormat("yyyy-mm-dd").parse(dateText.getText()),
+                            EPFETFCheckBox.isSelected()
                     );
                     editDataBase(nameText.getText(),
                             idText.getText(),
                             addressText.getText(),
                             telephoneText.getText(),
                             salaryInt.getText(),
-                            dateText.getText());
+                            dateText.getText(),
+                            Boolean.toString(EPFETFCheckBox.isSelected())
+                    );
 
                 } catch (ParseException parseException) {
                     parseException.printStackTrace();
@@ -134,6 +140,7 @@ public class register extends JFrame {
                     telephoneText.setText(Long.toString(u.getTelephone()));
                     salaryInt.setText(Double.toString(u.getSalary()));
                     dateText.setText(date.format(u.getDate()));
+                    EPFETFCheckBox.setSelected(u.getEpf_etf());
                     editButton.setEnabled(true);
                     deleteButton.setEnabled(true);
                 }
@@ -164,7 +171,7 @@ public class register extends JFrame {
             while (resultSet.next())
             {
                 user User = new user(resultSet.getString("Name"),resultSet.getString("Id"),resultSet.getString("city"),Long.parseLong(resultSet.getString("telephone")),
-                       resultSet.getDouble("salary"),resultSet.getDate("joined_date"));
+                       resultSet.getDouble("salary"),resultSet.getDate("joined_date"),Boolean.parseBoolean(resultSet.getString("EPF_ETF")));
                 userList.add(User);
             }
 
@@ -189,18 +196,19 @@ public class register extends JFrame {
         telephoneText.setText(null);
         salaryInt.setText(null);
         dateText.setText(null);
+        EPFETFCheckBox.setSelected(false);
         refreshList();
     }
-    void addToDatabase (String name, String id, String address, String telephone, String salary, String date){
-        sqlQuery( "Insert into employee"+"(Name,ID,City,Telephone,Salary,Joined_date)"+
-                "values ("+'\''+name+'\''+','+'\''+id+'\''+','+'\''+address+'\''+','+'\''+telephone+'\''+','+salary+','+'\''+date+'\''+")");
+    void addToDatabase (String name, String id, String address, String telephone, String salary, String date,String epf_etf){
+        sqlQuery( "Insert into employee"+"(Name,ID,City,Telephone,Salary,Joined_date,EPF_ETF)"+
+                "values ("+'\''+name+'\''+','+'\''+id+'\''+','+'\''+address+'\''+','+'\''+telephone+'\''+','+salary+','+'\''+date+'\''+','+'\''+epf_etf+'\''+")");
         arrayRefresh();
         refreshList();
     }
-    void editDataBase(String name, String id, String address, String telephone, String salary, String date){
+    void editDataBase(String name, String id, String address, String telephone, String salary, String date,String epf_etf){
         sqlQuery("update employee set "+
                 "name="+'\''+name+'\''+','+"ID="+'\''+id+'\''+','+"city="+'\''+address+'\''+','+"telephone="+'\''+telephone+'\''+','
-                +"salary="+salary+','+"joined_date="+'\''+date+'\''+"where ID="+'\''+id+'\'');
+                +"salary="+salary+','+"joined_date="+'\''+date+'\''+','+"EPF_ETF="+'\''+epf_etf+'\''+"where ID="+'\''+id+'\'');
         arrayRefresh();
         refreshList();
     }

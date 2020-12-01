@@ -12,13 +12,14 @@ public class user {
     Boolean epf_etf;
 
 
-    public user(String name, String id, String address, long telephone, double salary, Date date) {
+    public user(String name, String id, String address, long telephone, double salary, Date date,boolean epf_etf) {
         this.name = name;
         this.id = id;
         this.address = address;
         this.telephone = telephone;
         this.salary = salary;
         this.date = date;
+        this.epf_etf=epf_etf;
     }
 
     public String getName() {
@@ -67,5 +68,13 @@ public class user {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Boolean getEpf_etf() {
+        return epf_etf;
+    }
+
+    public void setEpf_etf(Boolean epf_etf) {
+        this.epf_etf = epf_etf;
     }
 }
