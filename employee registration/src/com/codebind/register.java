@@ -1,4 +1,5 @@
 package com.codebind;
+import java.awt.*;
 import java.sql.*;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -35,7 +36,7 @@ public class register extends JFrame {
     private JCheckBox EPFETFCheckBox;
     private JList peopleList;
     private JButton deleteButton;
-    private ArrayList<dbUser> userList;
+    private static final ArrayList<user> userList=new ArrayList<>();
     private DefaultListModel listPeople;
 
 
@@ -44,7 +45,9 @@ public class register extends JFrame {
         this.setContentPane(mainPanel);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
+        listPeople = new DefaultListModel();
         arrayRefresh();
+        refreshList();
         editButton.setEnabled(false);
         deleteButton.setEnabled(true);
 
@@ -61,8 +64,11 @@ public class register extends JFrame {
                             Double.parseDouble(salaryInt.getText()),
                             new SimpleDateFormat("yyyy-mm-dd").parse(dateText.getText())
                     );
+                    arrayRefresh();
+
                 } catch (ParseException parseException) {
                     parseException.printStackTrace();
+
                 }
                 addToDatabase(nameText.getText(),
                         idText.getText(),
@@ -71,6 +77,7 @@ public class register extends JFrame {
                         salaryInt.getText(),
                         dateText.getText()
                 );
+
 
             }
         });
@@ -118,9 +125,9 @@ public class register extends JFrame {
             public void valueChanged(ListSelectionEvent e) {
                 SimpleDateFormat date=new SimpleDateFormat("yyyy-mm-dd");
                 int personIndex = peopleList.getSelectedIndex();
-                if(personIndex>=0)
+               if(personIndex>=0)
                 {
-                    dbUser u = userList.get(personIndex);
+                    user u = userList.get(personIndex);
                     nameText.setText(u.getName());
                     idText.setText(u.getId());
                     addressText.setText(u.getAddress());
@@ -139,11 +146,13 @@ public class register extends JFrame {
     }
     public static void main(String[] args) {
         register screen= new register();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        screen.setSize(screenSize.width*3/4, screenSize.height*3/4);
         screen.setVisible(true);
+
     }
     void arrayRefresh(){
-        ArrayList<dbUser> userList=new ArrayList<>();
-        listPeople =new DefaultListModel();
+        userList.removeAll(userList);
         String url="jdbc:mysql://localhost:3306/LNT_Solutions";
         String user="root";
         String password="tharushi";
@@ -154,27 +163,25 @@ public class register extends JFrame {
             ResultSet resultSet= myStatement.executeQuery(sqlQuery);
             while (resultSet.next())
             {
-                dbUser User = new dbUser(resultSet.getString("Name"),resultSet.getString("Id"),resultSet.getString("city"),Long.parseLong(resultSet.getString("telephone")),
+                user User = new user(resultSet.getString("Name"),resultSet.getString("Id"),resultSet.getString("city"),Long.parseLong(resultSet.getString("telephone")),
                        resultSet.getDouble("salary"),resultSet.getDate("joined_date"));
                 userList.add(User);
             }
-            for (dbUser u:userList)
-            {
-                listPeople.addElement(u.getName());
-            }
-            peopleList.setModel(listPeople);
+
         }catch (Exception e){
             e.printStackTrace();
         }
     }
-    /*void refreshUsers()
+   void refreshList()
     {
         listPeople.removeAllElements();
         for(user u:userList)
         {
             listPeople.addElement(u.getName());
         }
-    }*/
+        peopleList.setModel(listPeople);
+
+    }
     void clearFields(){
         nameText.setText(null);
         idText.setText(null);
@@ -182,21 +189,25 @@ public class register extends JFrame {
         telephoneText.setText(null);
         salaryInt.setText(null);
         dateText.setText(null);
+        refreshList();
     }
     void addToDatabase (String name, String id, String address, String telephone, String salary, String date){
         sqlQuery( "Insert into employee"+"(Name,ID,City,Telephone,Salary,Joined_date)"+
                 "values ("+'\''+name+'\''+','+'\''+id+'\''+','+'\''+address+'\''+','+'\''+telephone+'\''+','+salary+','+'\''+date+'\''+")");
         arrayRefresh();
+        refreshList();
     }
     void editDataBase(String name, String id, String address, String telephone, String salary, String date){
         sqlQuery("update employee set "+
                 "name="+'\''+name+'\''+','+"ID="+'\''+id+'\''+','+"city="+'\''+address+'\''+','+"telephone="+'\''+telephone+'\''+','
                 +"salary="+salary+','+"joined_date="+'\''+date+'\''+"where ID="+'\''+id+'\'');
         arrayRefresh();
+        refreshList();
     }
     void deleteDataBase(String id){
         sqlQuery( "delete from employee where id="+'\''+id+'\'');
         arrayRefresh();
+        refreshList();
     }
     void sqlQuery(String sqlQuery){
         String url="jdbc:mysql://localhost:3306/LNT_Solutions";

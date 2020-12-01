@@ -9,6 +9,7 @@ public class user {
     long telephone;
     double salary;
     Date date;
+    Boolean epf_etf;
 
 
     public user(String name, String id, String address, long telephone, double salary, Date date) {
