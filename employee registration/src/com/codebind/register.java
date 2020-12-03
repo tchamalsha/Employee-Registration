@@ -6,12 +6,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class register extends JFrame {
     private JTextField nameText;
@@ -38,10 +35,12 @@ public class register extends JFrame {
     private JButton deleteButton;
     private static final ArrayList<user> userList=new ArrayList<>();
     private DefaultListModel listPeople;
+    private static int result;
 
-
-    register(){
+    register()
+    {
         super("Employee Registration App");
+        creatingSQLTable();
         this.setContentPane(mainPanel);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
@@ -49,7 +48,7 @@ public class register extends JFrame {
         arrayRefresh();
         refreshList();
         editButton.setEnabled(false);
-        deleteButton.setEnabled(true);
+        deleteButton.setEnabled(false);
 
 
         saveButton.addActionListener(new ActionListener() {
@@ -80,8 +79,9 @@ public class register extends JFrame {
                         dateText.getText(),
                         Boolean.toString(EPFETFCheckBox.isSelected())
                 );
-
-
+                String userid= Integer.toString(getUserID());
+                JOptionPane.showMessageDialog(null,"Your UserID is "+userid);
+                clearFields();
             }
         });
         editButton.addActionListener(new ActionListener() {
@@ -160,7 +160,7 @@ public class register extends JFrame {
     }
     void arrayRefresh(){
         userList.removeAll(userList);
-        String url="jdbc:mysql://localhost:3306/LNT_Solutions";
+        String url="jdbc:mysql://localhost:3306/My_Business";
         String user="root";
         String password="tharushi";
         try {
@@ -217,8 +217,59 @@ public class register extends JFrame {
         arrayRefresh();
         refreshList();
     }
+    void creatingSQLTable()
+    {
+        sqlQuery("use My_Business");
+        String url="jdbc:mysql://localhost:3306/My_Business";
+        String user="root";
+        String password="tharushi";
+        try {
+            Connection myConnection = DriverManager.getConnection(url,user,password);
+            Statement myStatement = myConnection.createStatement();
+            DatabaseMetaData dbm = myConnection.getMetaData();
+            ResultSet tables = dbm.getTables(null, null, "employee", null);
+            if (tables.next())
+            {
+                System.out.println("Employee table exits");
+            }
+            else {
+                sqlQuery("create table employee (userID int auto_increment Primary key," +
+                        "Name nchar(40)," +
+                        "ID nchar(20) unique," +
+                        "City nchar(20)," +
+                        "Telephone nchar(10)," +
+                        "salary double(15,2)," +
+                        "Joined_Date date," +
+                        "EPF_ETF text(5))");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+    int getUserID()
+    {
+        String url="jdbc:mysql://localhost:3306/My_Business";
+        String user="root";
+        String password="tharushi";
+
+        try {
+            Connection myConnection = DriverManager.getConnection(url,user,password);
+            Statement myStatement = myConnection.createStatement();
+            String sql="Select userID,name from employee where id="+idText.getText();
+            ResultSet rawResult=myStatement.executeQuery(sql);
+            System.out.println(rawResult.getInt("userid"));
+            result=rawResult.getInt("userid");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+
+    }
+
     void sqlQuery(String sqlQuery){
-        String url="jdbc:mysql://localhost:3306/LNT_Solutions";
+        String url="jdbc:mysql://localhost:3306/My_Business";
         String user="root";
         String password="tharushi";
         try {

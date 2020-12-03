@@ -77,4 +77,6 @@ public class user {
     public void setEpf_etf(Boolean epf_etf) {
         this.epf_etf = epf_etf;
     }
+
+
 }
