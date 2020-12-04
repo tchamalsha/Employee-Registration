@@ -80,7 +80,7 @@ public class register extends JFrame {
                         Boolean.toString(EPFETFCheckBox.isSelected())
                 );
                 String userid= Integer.toString(getUserID());
-                JOptionPane.showMessageDialog(null,"Your UserID is "+userid);
+                JOptionPane.showMessageDialog(null,nameText.getText()+"'S UserID is "+userid);
                 clearFields();
             }
         });
@@ -256,10 +256,13 @@ public class register extends JFrame {
         try {
             Connection myConnection = DriverManager.getConnection(url,user,password);
             Statement myStatement = myConnection.createStatement();
-            String sql="Select userID,name from employee where id="+idText.getText();
+            String sql="Select userid from employee where id="+idText.getText();
             ResultSet rawResult=myStatement.executeQuery(sql);
-            System.out.println(rawResult.getInt("userid"));
-            result=rawResult.getInt("userid");
+            while (rawResult.next())
+            {
+                result=rawResult.getInt("userid");
+            }
+
         }
         catch (Exception e){
             e.printStackTrace();
