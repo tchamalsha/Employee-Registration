@@ -33,7 +33,9 @@ public class register extends JFrame {
     private JCheckBox EPFETFCheckBox;
     private JList peopleList;
     private JButton deleteButton;
+    private JButton findButton;
     private static final ArrayList<user> userList=new ArrayList<>();
+    private static final ArrayList<user> findUser=new ArrayList<>();
     private DefaultListModel listPeople;
     private static int result;
 
@@ -126,6 +128,13 @@ public class register extends JFrame {
 
             }
         });
+        findButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                findUser(idText.getText());
+
+            }
+        });
         peopleList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -156,6 +165,35 @@ public class register extends JFrame {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screen.setSize(screenSize.width*3/4, screenSize.height*3/4);
         screen.setVisible(true);
+
+    }
+    void findUser(String id)
+    {
+        String url="jdbc:mysql://localhost:3306/My_Business";
+        String user="root";
+        String password="tharushi";
+
+        try {
+            Connection myConnection = DriverManager.getConnection(url,user,password);
+            Statement myStatement = myConnection.createStatement();
+            String sql="Select * from employee where id="+idText.getText();
+            ResultSet rawResult=myStatement.executeQuery(sql);
+            while (rawResult.next()) {
+                user fUser = new user(rawResult.getString("name"), rawResult.getString("Id"), rawResult.getString("city"), Long.parseLong(rawResult.getString("telephone")),
+                        rawResult.getDouble("salary"), rawResult.getDate("joined_date"), Boolean.parseBoolean(rawResult.getString("EPF_ETF")));
+                nameText.setText(fUser.name);
+                addressText.setText(fUser.getAddress());
+                telephoneText.setText(String.valueOf(fUser.telephone));
+                salaryInt.setText(String.valueOf(fUser.salary));
+                dateText.setText(String.valueOf(fUser.date));
+                EPFETFCheckBox.setSelected(fUser.epf_etf);
+            }
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
     void arrayRefresh(){
@@ -266,6 +304,7 @@ public class register extends JFrame {
         }
         catch (Exception e){
             e.printStackTrace();
+
         }
         return result;
 
