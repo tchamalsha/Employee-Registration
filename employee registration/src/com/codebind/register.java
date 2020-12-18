@@ -160,18 +160,18 @@ public class register extends JFrame {
             }
         });
     }
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         register screen= new register();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screen.setSize(screenSize.width*3/4, screenSize.height*3/4);
         screen.setVisible(true);
 
-    }
+    }*/
     void findUser(String id)
     {
         String url="jdbc:mysql://localhost:3306/My_Business";
-        String user="root";
-        String password="tharushi";
+        String user=login.userName;
+        String password=login.password;
 
         try {
             Connection myConnection = DriverManager.getConnection(url,user,password);
@@ -199,8 +199,8 @@ public class register extends JFrame {
     void arrayRefresh(){
         userList.removeAll(userList);
         String url="jdbc:mysql://localhost:3306/My_Business";
-        String user="root";
-        String password="tharushi";
+        String user=login.userName;
+        String password=login.password;
         try {
             Connection myConnection = DriverManager.getConnection(url,user,password);
             Statement myStatement = myConnection.createStatement();
@@ -288,8 +288,8 @@ public class register extends JFrame {
     int getUserID()
     {
         String url="jdbc:mysql://localhost:3306/My_Business";
-        String user="root";
-        String password="tharushi";
+        String user=login.userName;
+        String password=login.password;
 
         try {
             Connection myConnection = DriverManager.getConnection(url,user,password);
@@ -312,8 +312,8 @@ public class register extends JFrame {
 
     void sqlQuery(String sqlQuery){
         String url="jdbc:mysql://localhost:3306/My_Business";
-        String user="root";
-        String password="tharushi";
+        String user=login.userName;
+        String password=login.password;
         try {
             Connection myConnection = DriverManager.getConnection(url,user,password);
             Statement myStatement = myConnection.createStatement();
